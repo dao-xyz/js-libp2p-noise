@@ -61,7 +61,6 @@
     "clean": "aegir clean",
     "dep-check": "aegir dep-check",
     "build":"aegir build",
-    "build2": "tsc -p tsconfig.json && esbuild  --format=esm --sourcemap --outfile=dist/index.min.js --bundle=dist/src/index.js --entry-names=dist/src/index.js --minify --define:'global'='globalThis' --define:'process.env.NODE_ENV'='\"production\"' --log-level=warning",
     "prebuild": "mkdirp dist/src && cp -R src/proto dist/src",
     "lint": "aegir lint",
     "lint:fix": "aegir lint --fix",
