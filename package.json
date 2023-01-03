@@ -16,6 +16,10 @@
     "libp2p",
     "noise"
   ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
