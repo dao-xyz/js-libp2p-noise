@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Noise } from '../dist/src/index.js'
+import { Noise } from '../src/noise.js'
 import benchmark from 'benchmark'
 import { duplexPair } from 'it-pair/duplex'
 import { createFromJSON } from '@libp2p/peer-id-factory'
@@ -22,16 +22,16 @@ const bench = async function () {
   console.log('Init complete, running benchmark')
   const bench = new benchmark('handshake', {
     defer: true,
-    fn: async function (deffered) {
+    fn: async function (deffered: any) {
       const [inboundConnection, outboundConnection] = duplexPair()
       await Promise.all([
-        initiator.secureOutbound(initiatorPeer, outboundConnection, responderPeer),
-        responder.secureInbound(responderPeer, inboundConnection, initiatorPeer)
+        initiator.secureOutbound(initiatorPeer, outboundConnection as any, responderPeer),
+        responder.secureInbound(responderPeer, inboundConnection  as any, initiatorPeer)
       ])
       deffered.resolve()
     }
   })
-    .on('complete', function (stats) {
+    .on('complete', function (stats: any) {
       console.log(String(stats.currentTarget))
     })
   bench.run({ async: true })

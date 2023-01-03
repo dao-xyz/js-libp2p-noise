@@ -1,11 +1,11 @@
 import { HKDF } from '@stablelib/hkdf'
-import * as x25519 from '@stablelib/x25519'
 import { SHA256, hash } from '@stablelib/sha256'
-import { ChaCha20Poly1305 } from '@stablelib/chacha20poly1305'
 import type { bytes32, bytes } from '../@types/basic.js'
 import type { Hkdf } from '../@types/handshake.js'
 import type { KeyPair } from '../@types/libp2p.js'
 import type { ICryptoInterface } from '../crypto.js'
+import sodium from 'libsodium-wrappers';
+await sodium.ready;
 
 export const stablelib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {
@@ -25,36 +25,32 @@ export const stablelib: ICryptoInterface = {
   },
 
   generateX25519KeyPair (): KeyPair {
-    const keypair = x25519.generateKeyPair()
+    const keypair = sodium.crypto_box_keypair()
 
     return {
       publicKey: keypair.publicKey,
-      privateKey: keypair.secretKey
+      privateKey: keypair.privateKey
     }
   },
 
   generateX25519KeyPairFromSeed (seed: Uint8Array): KeyPair {
-    const keypair = x25519.generateKeyPairFromSeed(seed)
+    const keypair = sodium.crypto_box_seed_keypair(seed)
 
     return {
       publicKey: keypair.publicKey,
-      privateKey: keypair.secretKey
+      privateKey: keypair.privateKey
     }
   },
 
   generateX25519SharedKey (privateKey: Uint8Array, publicKey: Uint8Array): Uint8Array {
-    return x25519.sharedKey(privateKey, publicKey)
+    return sodium.crypto_box_beforenm(publicKey,privateKey)
   },
 
   chaCha20Poly1305Encrypt (plaintext: Uint8Array, nonce: Uint8Array, ad: Uint8Array, k: bytes32): bytes {
-    const ctx = new ChaCha20Poly1305(k)
-
-    return ctx.seal(nonce, plaintext, ad)
+    return sodium.crypto_aead_chacha20poly1305_ietf_encrypt(plaintext,ad,null,nonce,k)
   },
 
   chaCha20Poly1305Decrypt (ciphertext: Uint8Array, nonce: Uint8Array, ad: Uint8Array, k: bytes32, dst?: Uint8Array): bytes | null {
-    const ctx = new ChaCha20Poly1305(k)
-
-    return ctx.open(nonce, ciphertext, ad, dst)
+    return sodium.crypto_aead_chacha20poly1305_ietf_decrypt(null, ciphertext,ad,nonce,k)
   }
 }

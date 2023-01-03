@@ -1,15 +1,15 @@
 {
-  "name": "@chainsafe/libp2p-noise",
-  "version": "10.2.0",
-  "author": "ChainSafe <info@chainsafe.io>",
+  "name": "@dao-xyz/libp2p-noise",
+  "version": "11.0.0",
+  "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
-  "homepage": "https://github.com/ChainSafe/js-libp2p-noise#readme",
+  "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChainSafe/js-libp2p-noise.git"
+    "url": "git+https://github.com/dao-xyz/js-libp2p-noise.git"
   },
   "bugs": {
-    "url": "https://github.com/ChainSafe/js-libp2p-noise/issues"
+    "url": "https://github.com/dao-xyz/js-libp2p-noise/issues"
   },
   "keywords": [
     "crypto",
@@ -50,10 +50,14 @@
     ]
   },
   "scripts": {
-    "bench": "node benchmarks/benchmark.js",
+    "bench": "npm run bench:handshake && npm run bench:nonce && npm run bench:crypto",
+    "bench:handshake": "node --loader ts-node/esm ./benchmarks/handshake.ts",
+    "bench:nonce": "node --loader ts-node/esm ./benchmarks/nonce.ts",
+    "bench:crypto": "node --loader ts-node/esm ./benchmarks/crypto.ts",
     "clean": "aegir clean",
     "dep-check": "aegir dep-check",
-    "build": "aegir build",
+    "build":"aegir build",
+    "build2": "tsc -p tsconfig.json && esbuild  --format=esm --sourcemap --outfile=dist/index.min.js --bundle=dist/src/index.js --entry-names=dist/src/index.js --minify --define:'global'='globalThis' --define:'process.env.NODE_ENV'='\"production\"' --log-level=warning",
     "prebuild": "mkdirp dist/src && cp -R src/proto dist/src",
     "lint": "aegir lint",
     "lint:fix": "aegir lint --fix",
@@ -64,28 +68,28 @@
     "test:interop": "aegir test -t node -f dist/test/interop.js",
     "docs": "aegir docs",
     "proto:gen": "protons ./src/proto/payload.proto",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "@libp2p/crypto": "^1.0.0",
-    "@libp2p/interface-connection-encrypter": "^3.0.0",
-    "@libp2p/interface-keys": "^1.0.2",
-    "@libp2p/interface-metrics": "^4.0.2",
-    "@libp2p/interface-peer-id": "^1.0.2",
+    "@libp2p/crypto": "^1.0.10",
+    "@libp2p/interface-connection-encrypter": "^3.0.3",
+    "@libp2p/interface-keys": "^1.0.6",
+    "@libp2p/interface-metrics": "^4.0.4",
+    "@libp2p/interface-peer-id": "^1.1.2",
     "@libp2p/logger": "^2.0.0",
     "@libp2p/peer-id": "^1.1.8",
-    "@stablelib/chacha20poly1305": "^1.0.1",
     "@stablelib/hkdf": "^1.0.1",
     "@stablelib/sha256": "^1.0.1",
-    "@stablelib/x25519": "^1.0.1",
     "it-length-prefixed": "^8.0.2",
-    "it-pair": "^2.0.2",
-    "it-pb-stream": "^2.0.2",
-    "it-pipe": "^2.0.3",
-    "it-stream-types": "^1.0.4",
+    "it-pair": "^2.0.3",
+    "it-pb-stream": "^2.0.3",
+    "it-pipe": "^2.0.5",
+    "it-stream-types": "^1.0.5",
     "protons-runtime": "^4.0.1",
-    "uint8arraylist": "^2.3.2",
-    "uint8arrays": "^4.0.2"
+    "uint8arraylist": "^2.4.3",
+    "uint8arrays": "^4.0.2",
+    "libsodium-wrappers":"^0.7.10"
   },
   "devDependencies": {
     "@libp2p/daemon-client": "^3.0.1",
@@ -106,7 +110,11 @@
     "p-defer": "^4.0.0",
     "protons": "^6.0.0",
     "sinon": "^15.0.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "ts-node":"^10.9.1",
+    "@types/benchmark":"^2.1.2",
+    "@types/libsodium-wrappers": "^0.7.9",
+    "patch-package":"^6.5.1"
   },
   "browser": {
     "./dist/src/alloc-unsafe.js": "./dist/src/alloc-unsafe-browser.js",
