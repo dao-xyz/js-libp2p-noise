@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "11.0.5",
+  "version": "11.0.6",
   "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
@@ -72,7 +72,7 @@
     "docs": "aegir docs",
     "proto:gen": "protons ./src/proto/payload.proto",
     "prepublish": "npm run build",
-    "postinstall": "node -e \"let myLibAsDep = !require('fs').existsSync('.git'); if (myLibAsDep) process.exit(1);\" || patch-package"
+    "postinstall": "node -e \"let myLibAsDep = require('fs').existsSync('.git'); if (myLibAsDep) process.exit(1);\" || patch-package"
   },
   "dependencies": {
     "@libp2p/crypto": "^1.0.10",
