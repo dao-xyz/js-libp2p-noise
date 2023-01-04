@@ -1,8 +1,8 @@
 /* eslint-disable */
 import benchmark from 'benchmark'
 import crypto  from 'crypto'
-import { lib as libBrowser } from '../src/crypto/crypto-browser.js'
-import { lib as libNode } from '../src/crypto/crypto-node.js'
+import { lib as libBrowser } from '../src/crypto-browser.js'
+import { lib as libNode } from '../src/crypto-node.js'
 import { equals} from 'uint8arrays'
 import sodium from 'libsodium-wrappers';
 await sodium.ready;
@@ -18,7 +18,7 @@ suite.add('browser', () => {
   {
     throw new Error("Unexpected")
   }
-}).add('node', () => {
+}).add('native', () => {
   const key = crypto.randomBytes(32);
   const nonce = crypto.randomBytes(12);
   const ad = crypto.randomBytes(32);

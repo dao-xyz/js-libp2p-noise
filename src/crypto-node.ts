@@ -1,9 +1,9 @@
 import { HKDF } from '@stablelib/hkdf'
 import { SHA256, hash } from '@stablelib/sha256'
-import type { bytes32, bytes } from '../@types/basic.js'
-import type { Hkdf } from '../@types/handshake.js'
-import type { KeyPair } from '../@types/libp2p.js'
-import type { ICryptoInterface } from '../crypto.js'
+import type { bytes32, bytes } from './@types/basic.js'
+import type { Hkdf } from './@types/handshake.js'
+import type { KeyPair } from './@types/libp2p.js'
+import type { ICryptoInterface } from './crypto.js'
 import sodium from 'libsodium-wrappers';
 await sodium.ready;
 import crypto from 'crypto';

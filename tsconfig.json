@@ -8,7 +8,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "paths": {
-      "#crypto": ["./src/crypto/crypto-browser.ts"] // Have to add this otherwise TS won't compile
+      "#crypto": ["./src/crypto-browser.ts"] // Have to add this otherwise TS won't compile
     }
   },
   // Most ts-node options can be specified here using their programmatic names.

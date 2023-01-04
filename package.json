@@ -39,8 +39,8 @@
   },
   "imports": {
     "#crypto": {
-      "browser": "./dist/src/crypto/crypto-browser.js",
-      "import": "./dist/src/crypto/crypto-node.js"
+      "browser": "./dist/src/crypto-browser.js",
+      "import": "./dist/src/crypto-node.js"
     }
   },
   "eslintConfig": {
