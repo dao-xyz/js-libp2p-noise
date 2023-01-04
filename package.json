@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "11.0.8",
+  "version": "11.0.9",
   "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
