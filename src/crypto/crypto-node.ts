@@ -84,6 +84,10 @@ export const lib: ICryptoInterface = {
     )
     decipher.setAuthTag(authTag)
     const updated = decipher.update(text)
+    const final = decipher.final()
+    if (final.byteLength > 0) {
+      return Buffer.concat([updated, final])
+    }
     return updated
   }
 }
