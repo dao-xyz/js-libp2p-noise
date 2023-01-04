@@ -6,7 +6,7 @@ import sinon from 'sinon'
 import { noise } from '../src/index.js'
 import { Noise } from '../src/noise.js'
 import { createPeerIdsFromFixtures } from './fixtures/peer.js'
-import { Buffer } from 'buffer';
+import { Buffer } from 'buffer'
 function createCounterSpy () {
   return sinon.spy({
     increment: () => {},

@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "11.0.11",
+  "version": "11.0.12",
   "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
@@ -60,6 +60,7 @@
     "ignorePatterns": [
       "src/proto/payload.js",
       "src/proto/payload.d.ts",
+      "benchmarks",
       "test/fixtures/node-globals.js"
     ]
   },

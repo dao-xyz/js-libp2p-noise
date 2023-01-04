@@ -4,11 +4,11 @@ import type { bytes32, bytes } from '../@types/basic.js'
 import type { Hkdf } from '../@types/handshake.js'
 import type { KeyPair } from '../@types/libp2p.js'
 import type { ICryptoInterface } from './crypto.js'
-import sodium from 'libsodium-wrappers';
-await sodium.ready;
-import crypto from 'crypto';
+import sodium from 'libsodium-wrappers'
+import crypto from 'crypto'
+await sodium.ready
 
-const CHACHA_POLY1305 = 'chacha20-poly1305';
+const CHACHA_POLY1305 = 'chacha20-poly1305'
 export const lib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {
     return hash(data)
@@ -45,46 +45,45 @@ export const lib: ICryptoInterface = {
   },
 
   generateX25519SharedKey (privateKey: Uint8Array, publicKey: Uint8Array): Uint8Array {
-    return sodium.crypto_box_beforenm(publicKey,privateKey)
+    return sodium.crypto_box_beforenm(publicKey, privateKey)
   },
 
   chaCha20Poly1305Encrypt (plaintext: Uint8Array, nonce: Uint8Array, ad: Uint8Array, k: bytes32): bytes {
     const cipher = crypto.createCipheriv(CHACHA_POLY1305, k, nonce, {
       authTagLength: 16
-    });
-    cipher.setAAD(ad, {plaintextLength: plaintext.byteLength})
-    const updated = cipher.update(plaintext);
-    const final = cipher.final();
-    const tag = cipher.getAuthTag();
+    })
+    cipher.setAAD(ad, { plaintextLength: plaintext.byteLength })
+    const updated = cipher.update(plaintext)
+    const final = cipher.final()
+    const tag = cipher.getAuthTag()
 
-   const encrypted = Buffer.concat([
-        updated,
-        tag,
-        final,
-    ]);
-    return  encrypted;
+    const encrypted = Buffer.concat([
+      updated,
+      tag,
+      final
+    ])
+    return encrypted
   },
 
   chaCha20Poly1305Decrypt (ciphertext: Uint8Array, nonce: Uint8Array, ad: Uint8Array, k: bytes32, dst?: Uint8Array): bytes | null {
-
     const authTag = ciphertext.slice(ciphertext.length - 16)
-    const text = ciphertext.slice(0,ciphertext.length - 16)
-    let decipher = crypto.createDecipheriv(
+    const text = ciphertext.slice(0, ciphertext.length - 16)
+    const decipher = crypto.createDecipheriv(
       CHACHA_POLY1305,
       k,
       nonce,
       {
         authTagLength: 16
       }
-    );
+    )
     decipher.setAAD(
       ad,
-       {
+      {
         plaintextLength: text.byteLength
-       }
-    );
+      }
+    )
     decipher.setAuthTag(authTag)
-    const updated = decipher.update(text);
+    const updated = decipher.update(text)
     return updated
   }
 }
