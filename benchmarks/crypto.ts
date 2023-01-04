@@ -1,18 +1,29 @@
 /* eslint-disable */
 import benchmark from 'benchmark'
-import  webcrypto  from 'crypto'
-import { stablelib as crypto } from '../src/crypto/libsodium.js'
+import crypto  from 'crypto'
+import { lib as libBrowser } from '../src/crypto/crypto-browser.js'
+import { lib as libNode } from '../src/crypto/crypto-node.js'
 import { equals} from 'uint8arrays'
 import sodium from 'libsodium-wrappers';
 await sodium.ready;
 const suite = new benchmark.Suite('crypto');
-const rng =  webcrypto.randomBytes(1e6); // 1mb;
-suite.add('chacha', () => {
-  const key = webcrypto.randomBytes(32);
-  const nonce =  webcrypto.randomBytes(12);
-  const ad = webcrypto.randomBytes(32);
-  const encrypted = crypto.chaCha20Poly1305Encrypt(rng,nonce,ad, key)
-  const decrypted = crypto.chaCha20Poly1305Decrypt(encrypted,nonce,ad, key)!
+const rng = crypto.randomBytes(1e6); // 1mb;
+suite.add('browser', () => {
+  const key = crypto.randomBytes(32);
+  const nonce = crypto.randomBytes(12);
+  const ad = crypto.randomBytes(32);
+  const encrypted = libBrowser.chaCha20Poly1305Encrypt(rng,nonce,ad, key)
+  const decrypted = libBrowser.chaCha20Poly1305Decrypt(encrypted,nonce,ad, key)!
+  if(!equals(decrypted,rng))
+  {
+    throw new Error("Unexpected")
+  }
+}).add('node', () => {
+  const key = crypto.randomBytes(32);
+  const nonce = crypto.randomBytes(12);
+  const ad = crypto.randomBytes(32);
+  const encrypted = libNode.chaCha20Poly1305Encrypt(rng,nonce,ad, key)
+  const decrypted = libNode.chaCha20Poly1305Decrypt(encrypted,nonce,ad, key)!
   if(!equals(decrypted,rng))
   {
     throw new Error("Unexpected")

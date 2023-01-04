@@ -4,7 +4,7 @@ import { assert, expect } from 'aegir/chai'
 import { duplexPair } from 'it-pair/duplex'
 import { pbStream } from 'it-pb-stream'
 import { equals as uint8ArrayEquals } from 'uint8arrays/equals'
-import { stablelib } from '../src/crypto/libsodium.js'
+import { lib as cryptoNode } from '#crypto'
 import { XXHandshake } from '../src/handshake-xx.js'
 import { getPayload } from '../src/utils.js'
 import { createPeerIdsFromFixtures } from './fixtures/peer.js'
@@ -23,14 +23,14 @@ describe('XX Handshake', () => {
       const connectionTo = pbStream(duplex[1])
 
       const prologue = Buffer.alloc(0)
-      const staticKeysInitiator = stablelib.generateX25519KeyPair()
-      const staticKeysResponder = stablelib.generateX25519KeyPair()
+      const staticKeysInitiator = cryptoNode.generateX25519KeyPair()
+      const staticKeysResponder = cryptoNode.generateX25519KeyPair()
 
       const initPayload = await getPayload(peerA, staticKeysInitiator.publicKey)
-      const handshakeInitator = new XXHandshake(true, initPayload, prologue, stablelib, staticKeysInitiator, connectionFrom, peerB)
+      const handshakeInitator = new XXHandshake(true, initPayload, prologue, cryptoNode, staticKeysInitiator, connectionFrom, peerB)
 
       const respPayload = await getPayload(peerB, staticKeysResponder.publicKey)
-      const handshakeResponder = new XXHandshake(false, respPayload, prologue, stablelib, staticKeysResponder, connectionTo, peerA)
+      const handshakeResponder = new XXHandshake(false, respPayload, prologue, cryptoNode, staticKeysResponder, connectionTo, peerA)
 
       await handshakeInitator.propose()
       await handshakeResponder.propose()
@@ -70,14 +70,14 @@ describe('XX Handshake', () => {
       const connectionTo = pbStream(duplex[1])
 
       const prologue = Buffer.alloc(0)
-      const staticKeysInitiator = stablelib.generateX25519KeyPair()
-      const staticKeysResponder = stablelib.generateX25519KeyPair()
+      const staticKeysInitiator = cryptoNode.generateX25519KeyPair()
+      const staticKeysResponder = cryptoNode.generateX25519KeyPair()
 
       const initPayload = await getPayload(peerA, staticKeysInitiator.publicKey)
-      const handshakeInitator = new XXHandshake(true, initPayload, prologue, stablelib, staticKeysInitiator, connectionFrom, fakePeer)
+      const handshakeInitator = new XXHandshake(true, initPayload, prologue, cryptoNode, staticKeysInitiator, connectionFrom, fakePeer)
 
       const respPayload = await getPayload(peerB, staticKeysResponder.publicKey)
-      const handshakeResponder = new XXHandshake(false, respPayload, prologue, stablelib, staticKeysResponder, connectionTo, peerA)
+      const handshakeResponder = new XXHandshake(false, respPayload, prologue, cryptoNode, staticKeysResponder, connectionTo, peerA)
 
       await handshakeInitator.propose()
       await handshakeResponder.propose()
@@ -99,14 +99,14 @@ describe('XX Handshake', () => {
       const connectionTo = pbStream(duplex[1])
 
       const prologue = Buffer.alloc(0)
-      const staticKeysInitiator = stablelib.generateX25519KeyPair()
-      const staticKeysResponder = stablelib.generateX25519KeyPair()
+      const staticKeysInitiator = cryptoNode.generateX25519KeyPair()
+      const staticKeysResponder = cryptoNode.generateX25519KeyPair()
 
       const initPayload = await getPayload(peerA, staticKeysInitiator.publicKey)
-      const handshakeInitator = new XXHandshake(true, initPayload, prologue, stablelib, staticKeysInitiator, connectionFrom, peerB)
+      const handshakeInitator = new XXHandshake(true, initPayload, prologue, cryptoNode, staticKeysInitiator, connectionFrom, peerB)
 
       const respPayload = await getPayload(peerB, staticKeysResponder.publicKey)
-      const handshakeResponder = new XXHandshake(false, respPayload, prologue, stablelib, staticKeysResponder, connectionTo, fakePeer)
+      const handshakeResponder = new XXHandshake(false, respPayload, prologue, cryptoNode, staticKeysResponder, connectionTo, fakePeer)
 
       await handshakeInitator.propose()
       await handshakeResponder.propose()

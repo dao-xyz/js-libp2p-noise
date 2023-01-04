@@ -1,5 +1,5 @@
 # js-libp2p-noise
-## This is a fork for [ChainSafe/js-libp2p-noise](https://github.com/ChainSafe/js-libp2p-noise) where performance gains are made by utilising [libsodium.js](https://www.npmjs.com/package/libsodium-wrappers) (appx. 20-50% gain) instead of 'stablelib' 
+## This is a fork for [ChainSafe/js-libp2p-noise](https://github.com/ChainSafe/js-libp2p-noise) where performance gains are made by utilising [libsodium.js](https://www.npmjs.com/package/libsodium-wrappers) (appx. 20-50% gain) instead of 'stablelib' for browser usages, and Node crypto native lib from Node apps.
 
 This fork is ESM only.
 

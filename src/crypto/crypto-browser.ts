@@ -7,7 +7,7 @@ import type { ICryptoInterface } from '../crypto.js'
 import sodium from 'libsodium-wrappers';
 await sodium.ready;
 
-export const stablelib: ICryptoInterface = {
+export const lib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {
     return hash(data)
   },

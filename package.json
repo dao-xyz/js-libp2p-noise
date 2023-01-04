@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "11.0.6",
+  "version": "11.0.7",
   "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
@@ -35,6 +35,12 @@
   "exports": {
     ".": {
       "import": "./dist/src/index.js"
+    }
+  },
+  "imports": {
+    "#crypto": {
+      "browser": "./dist/src/crypto/crypto-browser.js",
+      "import": "./dist/src/crypto/crypto-node.js"
     }
   },
   "eslintConfig": {

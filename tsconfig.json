@@ -5,8 +5,20 @@
     "target": "es2022",
     "module": "ES2022",
     "lib": ["ES2022", "DOM"],
+    "allowJs": true,
     "moduleResolution": "node",
+    "paths": {
+      "#crypto": ["./src/crypto/crypto-browser.ts"] // Have to add this otherwise TS won't compile
+    }
   },
+  // Most ts-node options can be specified here using their programmatic names.
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true,
+    "files": true
+  },
+
   "include": [
     "src",
     "test"
