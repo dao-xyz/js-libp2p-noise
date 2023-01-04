@@ -1,5 +1,5 @@
 import { HKDF } from '@stablelib/hkdf'
-import { SHA256, hash } from '@stablelib/sha256'
+import { SHA256 } from '@stablelib/sha256'
 import type { bytes32, bytes } from '../@types/basic.js'
 import type { Hkdf } from '../@types/handshake.js'
 import type { KeyPair } from '../@types/libp2p.js'
@@ -11,7 +11,7 @@ await sodium.ready
 const CHACHA_POLY1305 = 'chacha20-poly1305'
 export const lib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {
-    return hash(data)
+    return crypto.createHash('sha256').update(data).digest()
   },
 
   getHKDF (ck: bytes32, ikm: Uint8Array): Hkdf {

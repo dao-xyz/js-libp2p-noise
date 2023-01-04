@@ -4,10 +4,10 @@ import crypto  from 'crypto'
 import { lib as libBrowser } from '../src/crypto/crypto-browser.js'
 import { lib as libNode } from '../src/crypto/crypto-node.js'
 import { equals} from 'uint8arrays'
-import sodium from 'libsodium-wrappers';
-await sodium.ready;
+
 const suite = new benchmark.Suite('crypto');
 const rng = crypto.randomBytes(1e6); // 1mb;
+
 suite.add('browser', () => {
   const key = crypto.randomBytes(32);
   const nonce = crypto.randomBytes(12);

@@ -5,7 +5,7 @@
     "module": "ES2022",
     "target": "ES2022",
     "paths": {
-      "#crypto": ["./src/crypto/crypto-browser.ts"] // Have to add this otherwise TS won't compile
+      "#noise-crypto": ["./src/crypto/crypto-browser.ts"] // Have to add this otherwise TS won't compile
     }
   },
   // Most ts-node options can be specified here using their programmatic names.
