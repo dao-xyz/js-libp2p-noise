@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "11.0.14",
+  "version": "11.0.15",
   "author": "dao.xyz",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
@@ -38,7 +38,7 @@
     }
   },
   "imports": {
-    "#crypto": {
+    "#noise-crypto": {
       "browser": "./dist/src/crypto/crypto-browser.js",
       "import": "./dist/src/crypto/crypto-node.js"
     }
@@ -85,9 +85,6 @@
     "prepublish": "npm run build",
     "postinstall": "node -e \"let myLibAsDep = require('fs').existsSync('.git'); if (myLibAsDep) process.exit(1);\" || patch-package"
   },
-  "optionalDependencies": {
-    "libsodium-wrappers":"^0.7.10"
-  },
   "dependencies": {
     "@libp2p/crypto": "^1.0.10",
     "@libp2p/interface-connection-encrypter": "^3.0.3",
@@ -105,7 +102,8 @@
     "it-stream-types": "^1.0.5",
     "protons-runtime": "^4.0.1",
     "uint8arraylist": "^2.3.2",
-    "uint8arrays": "^4.0.2"
+    "uint8arrays": "^4.0.2",
+    "libsodium-wrappers":"^0.7.10"
   },
   "devDependencies": {
     "@libp2p/daemon-client": "^3.0.1",
@@ -130,8 +128,7 @@
     "ts-node":"^10.9.1",
     "@types/benchmark":"^2.1.2",
     "@types/libsodium-wrappers": "^0.7.9",
-    "patch-package":"^6.5.1",
-    "libsodium-wrappers":"^0.7.10"
+    "patch-package":"^6.5.1"
   }
 
 }
