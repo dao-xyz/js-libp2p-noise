@@ -1,13 +1,14 @@
 import { HKDF } from '@stablelib/hkdf'
 import { SHA256, hash } from '@stablelib/sha256'
-import type { bytes32, bytes } from './@types/basic.js'
-import type { Hkdf } from './@types/handshake.js'
-import type { KeyPair } from './@types/libp2p.js'
-import type { ICryptoInterface } from './crypto.js'
+import type { bytes32, bytes } from '../@types/basic.js'
+import type { Hkdf } from '../@types/handshake.js'
+import type { KeyPair } from '../@types/libp2p.js'
+import type { ICryptoInterface } from '../crypto.js'
 import sodium from 'libsodium-wrappers';
 await sodium.ready;
 import crypto from 'crypto';
 
+const CHACHA_POLY1305 = 'chacha20-poly1305';
 export const lib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {
     return hash(data)
@@ -48,7 +49,7 @@ export const lib: ICryptoInterface = {
   },
 
   chaCha20Poly1305Encrypt (plaintext: Uint8Array, nonce: Uint8Array, ad: Uint8Array, k: bytes32): bytes {
-    const cipher = crypto.createCipheriv('chacha20-poly1305', k, nonce, {
+    const cipher = crypto.createCipheriv(CHACHA_POLY1305, k, nonce, {
       authTagLength: 16
     });
     cipher.setAAD(ad, {plaintextLength: plaintext.byteLength})
@@ -69,7 +70,7 @@ export const lib: ICryptoInterface = {
     const authTag = ciphertext.slice(ciphertext.length - 16)
     const text = ciphertext.slice(0,ciphertext.length - 16)
     let decipher = crypto.createDecipheriv(
-      'chacha20-poly1305',
+      CHACHA_POLY1305,
       k,
       nonce,
       {
