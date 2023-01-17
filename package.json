@@ -119,7 +119,7 @@
     "execa": "^6.1.0",
     "go-libp2p": "^0.0.6",
     "iso-random-stream": "^2.0.2",
-    "libp2p": "^0.42.1-f82e6b86",
+    "libp2p": "^0.42.0",
     "mkdirp": "^1.0.4",
     "p-defer": "^4.0.0",
     "protons": "^6.0.0",
