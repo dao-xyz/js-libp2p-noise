@@ -5,7 +5,6 @@ import type { Hkdf } from './../@types/handshake.js'
 import type { KeyPair } from './../@types/libp2p.js'
 import type { ICryptoInterface } from './crypto.js'
 import sodium from 'libsodium-wrappers'
-await sodium.ready
 
 export const lib: ICryptoInterface = {
   hashSHA256 (data: Uint8Array): Uint8Array {

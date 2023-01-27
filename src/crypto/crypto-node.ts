@@ -6,7 +6,6 @@ import type { KeyPair } from '../@types/libp2p.js'
 import type { ICryptoInterface } from './crypto.js'
 import sodium from 'libsodium-wrappers'
 import crypto from 'crypto'
-await sodium.ready
 
 const CHACHA_POLY1305 = 'chacha20-poly1305'
 export const lib: ICryptoInterface = {

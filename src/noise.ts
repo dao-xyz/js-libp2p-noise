@@ -18,6 +18,7 @@ import { getPayload } from './utils.js'
 import type { NoiseExtensions } from './proto/payload.js'
 import type { Metrics } from '@libp2p/interface-metrics'
 import { MetricsRegistry, registerMetrics } from './metrics.js'
+import sodium from 'libsodium-wrappers'
 
 interface HandshakeParams {
   connection: ProtobufStream
@@ -42,9 +43,10 @@ export class Noise implements INoiseConnection {
   public crypto: ICryptoInterface
 
   private readonly prologue: Uint8Array
-  private readonly staticKeys: KeyPair
+  private staticKeys!: KeyPair
   private readonly extensions?: NoiseExtensions
   private readonly metrics?: MetricsRegistry
+  private readonly staticNoiseKey?: Uint8Array
 
   constructor (init: NoiseInit = {}) {
     const { staticNoiseKey, extensions, crypto, prologueBytes, metrics } = init
@@ -52,14 +54,24 @@ export class Noise implements INoiseConnection {
     this.crypto = crypto ?? cryptoImpl
     this.extensions = extensions
     this.metrics = metrics ? registerMetrics(metrics) : undefined
+    this.staticNoiseKey = staticNoiseKey
 
-    if (staticNoiseKey) {
+    this.prologue = prologueBytes ?? new Uint8Array(0)
+  }
+
+  async initKeys () {
+    await sodium.ready
+
+    if (this.staticKeys) {
+      return
+    }
+
+    if (this.staticNoiseKey) {
       // accepts x25519 private key of length 32
-      this.staticKeys = this.crypto.generateX25519KeyPairFromSeed(staticNoiseKey)
+      this.staticKeys = this.crypto.generateX25519KeyPairFromSeed(this.staticNoiseKey)
     } else {
       this.staticKeys = this.crypto.generateX25519KeyPair()
     }
-    this.prologue = prologueBytes ?? new Uint8Array(0)
   }
 
   /**
@@ -71,6 +83,8 @@ export class Noise implements INoiseConnection {
    * @returns {Promise<SecuredConnection>}
    */
   public async secureOutbound (localPeer: PeerId, connection: Duplex<Uint8Array>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
+    await this.initKeys()
+
     const wrappedConnection = pbStream(
       connection,
       {
@@ -103,6 +117,8 @@ export class Noise implements INoiseConnection {
    * @returns {Promise<SecuredConnection>}
    */
   public async secureInbound (localPeer: PeerId, connection: Duplex<Uint8Array>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
+    await this.initKeys()
+
     const wrappedConnection = pbStream(
       connection,
       {
