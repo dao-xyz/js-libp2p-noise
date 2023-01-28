@@ -101,7 +101,7 @@
     "it-pipe": "^2.0.5",
     "it-stream-types": "^1.0.5",
     "protons-runtime": "^4.0.2",
-    "uint8arraylist": "^2.3.2",
+    "uint8arraylist": "^2.4.3",
     "uint8arrays": "^4.0.3",
     "libsodium-wrappers":"^0.7.10"
   },
