@@ -3,10 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "ES2020",
-    "target": "ES2020",
-    "paths": {
-      "#noise-crypto": ["./src/crypto/crypto-browser.ts"] // Have to add this otherwise TS won't compile
-    }
+    "target": "ES2020"
   },
   // Most ts-node options can be specified here using their programmatic names.
   "ts-node": {
