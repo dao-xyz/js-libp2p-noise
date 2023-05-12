@@ -4,7 +4,7 @@ import { pbStream, ProtobufStream } from 'it-pb-stream'
 import { duplexPair } from 'it-pair/duplex'
 import { pipe } from 'it-pipe'
 import { decode } from 'it-length-prefixed'
-import type { Duplex } from 'it-stream-types'
+import type { Duplex, Source } from 'it-stream-types'
 import type { bytes } from './@types/basic.js'
 import type { IHandshake } from './@types/handshake-interface.js'
 import type { INoiseConnection, KeyPair } from './@types/libp2p.js'
@@ -82,7 +82,7 @@ export class Noise implements INoiseConnection {
    * @param {PeerId} remotePeer - PeerId of the remote peer. Used to validate the integrity of the remote peer.
    * @returns {Promise<SecuredConnection>}
    */
-  public async secureOutbound (localPeer: PeerId, connection: Duplex<Uint8Array>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
+  public async secureOutbound (localPeer: PeerId, connection: Duplex<AsyncGenerator<Uint8Array>, Source<Uint8Array>, Promise<void>>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
     await this.initKeys()
 
     const wrappedConnection = pbStream(
@@ -116,7 +116,7 @@ export class Noise implements INoiseConnection {
    * @param {PeerId} remotePeer - optional PeerId of the initiating peer, if known. This may only exist during transport upgrades.
    * @returns {Promise<SecuredConnection>}
    */
-  public async secureInbound (localPeer: PeerId, connection: Duplex<Uint8Array>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
+  public async secureInbound (localPeer: PeerId, connection: Duplex<AsyncGenerator<Uint8Array>, Source<Uint8Array>, Promise<void>>, remotePeer?: PeerId): Promise<SecuredConnection<NoiseExtensions>> {
     await this.initKeys()
 
     const wrappedConnection = pbStream(
@@ -189,16 +189,16 @@ export class Noise implements INoiseConnection {
   private async createSecureConnection (
     connection: ProtobufStream,
     handshake: IHandshake
-  ): Promise<Duplex<Uint8Array>> {
+  ): Promise<Duplex<AsyncGenerator<Uint8Array>, Source<Uint8Array>, Promise<void>>> {
     // Create encryption box/unbox wrapper
     const [secure, user] = duplexPair<Uint8Array>()
-    const network = connection.unwrap()
+    const network = connection.unwrap() as any
 
     await pipe(
       secure, // write to wrapper
       encryptStream(handshake, this.metrics), // encrypt data + prefix with message length
       network, // send to the remote peer
-      decode({ lengthDecoder: uint16BEDecode }), // read message length prefix
+      (source) => decode(source,{ lengthDecoder: uint16BEDecode }), // read message length prefix
       decryptStream(handshake, this.metrics), // decrypt the incoming data
       secure // pipe to the wrapper
     )

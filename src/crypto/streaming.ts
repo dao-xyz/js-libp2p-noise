@@ -1,5 +1,3 @@
-import type { Transform } from 'it-stream-types'
-import type { Uint8ArrayList } from 'uint8arraylist'
 import type { IHandshake } from '../@types/handshake-interface.js'
 import type { MetricsRegistry } from '../metrics.js'
 import { NOISE_MSG_MAX_LENGTH_BYTES, NOISE_MSG_MAX_LENGTH_BYTES_WITHOUT_TAG } from '../constants.js'
@@ -7,8 +5,8 @@ import { uint16BEEncode } from '../encoder.js'
 const TAG_LENGTH = 16
 
 // Returns generator that encrypts payload from the user
-export function encryptStream (handshake: IHandshake, metrics?: MetricsRegistry): Transform<Uint8Array> {
-  return async function * (source) {
+export function encryptStream (handshake: IHandshake, metrics?: MetricsRegistry)/* : Transform<Uint8Array> */ {
+  return async function * (source: any) {
     for await (const chunk of source) {
       for (let i = 0; i < chunk.length; i += NOISE_MSG_MAX_LENGTH_BYTES_WITHOUT_TAG) {
         let end = i + NOISE_MSG_MAX_LENGTH_BYTES_WITHOUT_TAG
@@ -27,8 +25,8 @@ export function encryptStream (handshake: IHandshake, metrics?: MetricsRegistry)
 }
 
 // Decrypt received payload to the user
-export function decryptStream (handshake: IHandshake, metrics?: MetricsRegistry): Transform<Uint8ArrayList, Uint8Array> {
-  return async function * (source) {
+export function decryptStream (handshake: IHandshake, metrics?: MetricsRegistry)/* : Transform<Uint8ArrayList, Uint8Array> */ {
+  return async function * (source: any) {
     for await (const chunk of source) {
       for (let i = 0; i < chunk.length; i += NOISE_MSG_MAX_LENGTH_BYTES) {
         let end = i + NOISE_MSG_MAX_LENGTH_BYTES

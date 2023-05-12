@@ -78,19 +78,19 @@ export namespace NoiseHandshakePayload {
 
   export const codec = (): Codec<NoiseHandshakePayload> => {
     if (_codec == null) {
-      _codec = message<NoiseHandshakePayload>((obj, w, opts = {}) => {
+      _codec = message<NoiseHandshakePayload>((obj, w, opts: any = {}) => {
         if (opts.lengthDelimited !== false) {
           w.fork()
         }
 
         if (opts.writeDefaults === true || (obj.identityKey != null && obj.identityKey.byteLength > 0)) {
           w.uint32(10)
-          w.bytes(obj.identityKey)
+          w.bytes(obj.identityKey ?? new Uint8Array(0))
         }
 
         if (opts.writeDefaults === true || (obj.identitySig != null && obj.identitySig.byteLength > 0)) {
           w.uint32(18)
-          w.bytes(obj.identitySig)
+          w.bytes(obj.identitySig ?? new Uint8Array(0))
         }
 
         if (obj.extensions != null) {
