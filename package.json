@@ -77,8 +77,7 @@
     "test:interop": "aegir test -t node -f dist/test/interop.js",
     "docs": "aegir docs",
     "proto:gen": "protons ./src/proto/payload.proto",
-    "prepublish": "npm run build",
-    "postinstall": "node -e \"let myLibAsDep = require('fs').existsSync('.git'); if (myLibAsDep) process.exit(1);\" || patch-package"
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "@libp2p/crypto": "^1.0.17",
