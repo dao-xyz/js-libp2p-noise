@@ -5,6 +5,9 @@ import { lib as libBrowser } from '../src/crypto/crypto-browser.js'
 import { lib as libNode } from '../src/crypto/crypto-node.js'
 import { equals} from 'uint8arrays'
 
+import sodium from 'libsodium-wrappers';
+await sodium.ready; // we need to do this prior to the benchmark to load the wasm module
+
 const suite = new benchmark.Suite('crypto');
 const rng = crypto.randomBytes(1e6); // 1mb;
 
