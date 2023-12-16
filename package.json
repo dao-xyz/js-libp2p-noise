@@ -67,7 +67,8 @@
     "test:interop": "aegir test -t node -f dist/test/interop.js",
     "docs": "aegir docs",
     "proto:gen": "protons ./src/proto/payload.proto",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@chainsafe/as-chacha20poly1305": "^0.1.0",
