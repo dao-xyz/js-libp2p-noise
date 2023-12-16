@@ -1,6 +1,6 @@
 {
   "name": "@dao-xyz/libp2p-noise",
-  "version": "14.1.1",
+  "version": "14.1.2",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
   "repository": {
@@ -67,8 +67,7 @@
     "test:interop": "aegir test -t node -f dist/test/interop.js",
     "docs": "aegir docs",
     "proto:gen": "protons ./src/proto/payload.proto",
-    "prepublish": "npm run build",
-    "postinstall": "patch-package"
+    "prepublish": "patch-package && npm run build"
   },
   "dependencies": {
     "@chainsafe/as-chacha20poly1305": "^0.1.0",
