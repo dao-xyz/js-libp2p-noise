@@ -3,7 +3,7 @@ import { newInstance, ChaCha20Poly1305 } from '@chainsafe/as-chacha20poly1305'
 import { digest } from '@chainsafe/as-sha256'
 import { Uint8ArrayList } from 'uint8arraylist'
 import { isElectronMain } from 'wherearewe'
-import { pureJsCrypto } from './js.js'
+import { defaultCrypto as pureJsCrypto } from './index.browser.js'
 import type { KeyPair } from '../@types/libp2p.js'
 import type { ICryptoInterface } from '../crypto.js'
 

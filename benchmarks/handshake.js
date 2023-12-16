@@ -4,16 +4,17 @@ import { noise } from '../dist/src/index.js'
 import benchmark from 'benchmark'
 import { duplexPair } from 'it-pair/duplex'
 import { createFromJSON } from '@libp2p/peer-id-factory'
+import { defaultLogger } from '@libp2p/logger'
 
 const bench = async function () {
   console.log('Initializing handshake benchmark')
-  const initiator = noise()()
+  const initiator = noise()({logger:defaultLogger()})
   const initiatorPeer = await createFromJSON({
     id: '12D3KooWH45PiqBjfnEfDfCD6TqJrpqTBJvQDwGHvjGpaWwms46D',
     privKey: 'CAESYBtKXrMwawAARmLScynQUuSwi/gGSkwqDPxi15N3dqDHa4T4iWupkMe5oYGwGH3Hyfvd/QcgSTqg71oYZJadJ6prhPiJa6mQx7mhgbAYfcfJ+939ByBJOqDvWhhklp0nqg==',
     pubKey: 'CAESIGuE+IlrqZDHuaGBsBh9x8n73f0HIEk6oO9aGGSWnSeq'
   })
-  const responder = noise()()
+  const responder = noise()({logger:defaultLogger()})
   const responderPeer = await createFromJSON({
     id: '12D3KooWP63uzL78BRMpkQ7augMdNi1h3VBrVWZucKjyhzGVaSi1',
     privKey: 'CAESYPxO3SHyfc2578hDmfkGGBY255JjiLuVavJWy+9ivlpsxSyVKf36ipyRGL6szGzHuFs5ceEuuGVrPMg/rW2Ch1bFLJUp/fqKnJEYvqzMbMe4Wzlx4S64ZWs8yD+tbYKHVg==',

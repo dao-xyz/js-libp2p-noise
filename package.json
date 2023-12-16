@@ -1,7 +1,6 @@
 {
-  "name": "@chainsafe/libp2p-noise",
-  "version": "14.1.0",
-  "author": "ChainSafe <info@chainsafe.io>",
+  "name": "@dao-xyz/libp2p-noise",
+  "version": "14.1.1",
   "license": "Apache-2.0 OR MIT",
   "homepage": "https://github.com/ChainSafe/js-libp2p-noise#readme",
   "repository": {
@@ -51,7 +50,11 @@
     ]
   },
   "scripts": {
-    "bench": "node benchmarks/benchmark.js",
+    "bench": "npm run bench:handshake && npm run bench:nonce && npm run bench:crypto",
+    "bench:handshake": "node ./benchmarks/handshake.js",
+    "bench:nonce": "node --loader ts-node/esm ./benchmarks/nonce.ts",
+    "bench:crypto": "node --loader ts-node/esm ./benchmarks/crypto.ts",
+ 
     "clean": "aegir clean",
     "dep-check": "aegir dep-check",
     "build": "aegir build",
@@ -69,12 +72,9 @@
   "dependencies": {
     "@chainsafe/as-chacha20poly1305": "^0.1.0",
     "@chainsafe/as-sha256": "^0.4.1",
-    "@libp2p/crypto": "^3.0.0",
-    "@libp2p/interface": "^1.0.0",
-    "@libp2p/peer-id": "^4.0.0",
-    "@noble/ciphers": "^0.4.0",
-    "@noble/curves": "^1.1.0",
-    "@noble/hashes": "^1.3.1",
+    "@libp2p/crypto": "^3.0.2",
+    "@libp2p/interface": "^1.0.2",
+    "@libp2p/peer-id": "^4.0.2",
     "it-byte-stream": "^1.0.0",
     "it-length-prefixed": "^9.0.1",
     "it-length-prefixed-stream": "^1.0.0",
@@ -82,9 +82,12 @@
     "it-pipe": "^3.0.1",
     "it-stream-types": "^2.0.1",
     "protons-runtime": "^5.0.0",
-    "uint8arraylist": "^2.4.3",
+    "uint8arraylist": "^2.4.7",
     "uint8arrays": "^5.0.0",
-    "wherearewe": "^2.0.1"
+    "wherearewe": "^2.0.1",
+    "libsodium-wrappers":"^0.7.13",
+    "@stablelib/hkdf": "^1.0.1",
+    "@stablelib/sha256": "^1.0.1"
   },
   "devDependencies": {
     "@chainsafe/libp2p-yamux": "^6.0.1",
@@ -97,6 +100,8 @@
     "@libp2p/tcp": "^9.0.0",
     "@multiformats/multiaddr": "^12.1.0",
     "@types/sinon": "^17.0.1",
+    "@types/benchmark":"^2.1.5",
+    "@types/libsodium-wrappers": "^0.7.13",
     "aegir": "^41.1.10",
     "benchmark": "^2.1.4",
     "execa": "^8.0.1",
@@ -106,7 +111,10 @@
     "mkdirp": "^3.0.0",
     "p-defer": "^4.0.0",
     "protons": "^7.0.0",
-    "sinon": "^17.0.1"
+    "sinon": "^17.0.1",
+    "ts-node":"^10.9.2",
+    "eslint-plugin-n":"^16.4.0",
+    "patch-package":"^8.0.0"
   },
   "browser": {
     "./dist/src/crypto/index.js": "./dist/src/crypto/index.browser.js"
