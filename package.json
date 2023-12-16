@@ -2,13 +2,13 @@
   "name": "@dao-xyz/libp2p-noise",
   "version": "14.1.1",
   "license": "Apache-2.0 OR MIT",
-  "homepage": "https://github.com/ChainSafe/js-libp2p-noise#readme",
+  "homepage": "https://github.com/dao-xyz/js-libp2p-noise#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChainSafe/js-libp2p-noise.git"
+    "url": "git+https://github.com/dao-xyz/js-libp2p-noise.git"
   },
   "bugs": {
-    "url": "https://github.com/ChainSafe/js-libp2p-noise/issues"
+    "url": "https://github.com/dao-xyz/js-libp2p-noise/issues"
   },
   "keywords": [
     "crypto",
